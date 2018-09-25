@@ -59,6 +59,7 @@ class ViewController: UIViewController {
         sevenButton.layer.cornerRadius = 80/2
         sevenButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         sevenButton.setTitleColor(.white, for: .normal)
+        sevenButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return sevenButton
     }()
     let EightButton: UIButton = {
@@ -69,6 +70,7 @@ class ViewController: UIViewController {
         eightButton.layer.cornerRadius = 80/2
         eightButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         eightButton.setTitleColor(.white, for: .normal)
+        eightButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return eightButton
     }()
     let NineButton: UIButton = {
@@ -79,6 +81,7 @@ class ViewController: UIViewController {
         nineButton.layer.cornerRadius = 80/2
         nineButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         nineButton.setTitleColor(.white, for: .normal)
+        nineButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return nineButton
     }()
     let MultiplyButton: UIButton = {
@@ -100,6 +103,7 @@ class ViewController: UIViewController {
         fourButton.layer.cornerRadius = 80/2
         fourButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         fourButton.setTitleColor(.white, for: .normal)
+        fourButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return fourButton
     }()
     let FiveButton: UIButton = {
@@ -110,6 +114,7 @@ class ViewController: UIViewController {
         fiveButton.layer.cornerRadius = 80/2
         fiveButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         fiveButton.setTitleColor(.white, for: .normal)
+        fiveButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return fiveButton
     }()
     let SixButton: UIButton = {
@@ -120,6 +125,7 @@ class ViewController: UIViewController {
         sixButton.layer.cornerRadius = 80/2
         sixButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         sixButton.setTitleColor(.white, for: .normal)
+        sixButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return sixButton
     }()
     let MinusButton: UIButton = {
@@ -141,6 +147,7 @@ class ViewController: UIViewController {
         oneButton.layer.cornerRadius = 80/2
         oneButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         oneButton.setTitleColor(.white, for: .normal)
+        oneButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return oneButton
     }()
     let TwoButton: UIButton = {
@@ -151,6 +158,7 @@ class ViewController: UIViewController {
         twoButton.layer.cornerRadius = 80/2
         twoButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         twoButton.setTitleColor(.white, for: .normal)
+        twoButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return twoButton
     }()
     let ThreeButton: UIButton = {
@@ -161,6 +169,7 @@ class ViewController: UIViewController {
         threeButton.layer.cornerRadius = 80/2
         threeButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         threeButton.setTitleColor(.white, for: .normal)
+        threeButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return threeButton
     }()
     let PlusButton: UIButton = {
@@ -182,6 +191,7 @@ class ViewController: UIViewController {
         zeroButton.layer.cornerRadius = 80/2
         zeroButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         zeroButton.setTitleColor(.white, for: .normal)
+        zeroButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return zeroButton
     }()
     let DotButton: UIButton = {
@@ -204,11 +214,31 @@ class ViewController: UIViewController {
         equalsToButton.setTitleColor(.white, for: .normal)
         return equalsToButton
     }()
+    let displayLabel: UILabel = {
+        let label = UILabel()
+        label.text = "0"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = label.font.withSize(80)
+        label.textAlignment = NSTextAlignment.right
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    @objc func numButtonPressed(_ sender: UIButton){
+        if let numValue = sender.currentTitle {
+            
+            displayLabel.text = numValue
+            
+        }
+    }
     
     override func viewDidLoad() {
         print("Calculator without Storyboard")
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgb(red: 28, green: 28, blue: 28)
+        
+        view.addSubview(displayLabel)
         
         view.addSubview(ClearButton)
         view.addSubview(SignChangeButton)
@@ -233,6 +263,8 @@ class ViewController: UIViewController {
         view.addSubview(ZeroButton)
         view.addSubview(DotButton)
         view.addSubview(EqualsToButton)
+        
+        displayLabel.anchor(top: nil, left: view.leftAnchor, bottom: ClearButton.topAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: view.frame.width, height: 150)
         
         ClearButton.anchor(top: nil, left: view.leftAnchor, bottom: SevenButton.topAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 18, paddingRight: 0, width: 80, height: 80)
         SignChangeButton.anchor(top: nil, left: ClearButton.rightAnchor, bottom: EightButton.topAnchor, right: PercentButton.leftAnchor, paddingTop: 0, paddingLeft: 18, paddingBottom: 18, paddingRight: 18, width: 80, height: 80)
