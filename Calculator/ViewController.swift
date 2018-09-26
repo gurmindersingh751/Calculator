@@ -10,6 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    private var isFinishedTypingNumber: Bool = true
+    
+    private var displayValue: Double {
+        get {
+            guard let number = Double(displayLabel.text!) else { fatalError("Failed Conversion") }
+            return number
+        }
+        set {
+            displayLabel.text = String(newValue)
+        }
+    }
+    
     let ClearButton: UIButton = {
         let clearButton = UIButton(type: .system)
         clearButton.setTitle("AC", for: .normal)
@@ -18,6 +30,7 @@ class ViewController: UIViewController {
         clearButton.layer.cornerRadius = 80/2
         clearButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         clearButton.setTitleColor(.black, for: .normal)
+        clearButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return clearButton
     }()
     let SignChangeButton: UIButton = {
@@ -28,6 +41,7 @@ class ViewController: UIViewController {
         signChangeButton.layer.cornerRadius = 80/2
         signChangeButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         signChangeButton.setTitleColor(.black, for: .normal)
+        signChangeButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return signChangeButton
     }()
     let PercentButton: UIButton = {
@@ -38,6 +52,7 @@ class ViewController: UIViewController {
         percentButton.layer.cornerRadius = 80/2
         percentButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         percentButton.setTitleColor(.black, for: .normal)
+        percentButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return percentButton
     }()
     let DivideButton: UIButton = {
@@ -48,6 +63,7 @@ class ViewController: UIViewController {
         divideButton.layer.cornerRadius = 80/2
         divideButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         divideButton.setTitleColor(.white, for: .normal)
+        divideButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return divideButton
     }()
     
@@ -92,6 +108,7 @@ class ViewController: UIViewController {
         multiplyButton.layer.cornerRadius = 80/2
         multiplyButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         multiplyButton.setTitleColor(.white, for: .normal)
+        multiplyButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return multiplyButton
     }()
     
@@ -136,6 +153,7 @@ class ViewController: UIViewController {
         minusButton.layer.cornerRadius = 80/2
         minusButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         minusButton.setTitleColor(.white, for: .normal)
+        minusButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return minusButton
     }()
     
@@ -180,6 +198,7 @@ class ViewController: UIViewController {
         plusButton.layer.cornerRadius = 80/2
         plusButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         plusButton.setTitleColor(.white, for: .normal)
+        plusButton.addTarget(self, action: #selector(calcButtonPressed), for: .touchUpInside)
         return plusButton
     }()
     
@@ -202,6 +221,7 @@ class ViewController: UIViewController {
         dotButton.layer.cornerRadius = 80/2
         dotButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         dotButton.setTitleColor(.white, for: .normal)
+        dotButton.addTarget(self, action: #selector(numButtonPressed), for: .touchUpInside)
         return dotButton
     }()
     let EqualsToButton: UIButton = {
@@ -224,12 +244,41 @@ class ViewController: UIViewController {
         
         return label
     }()
-    
-    @objc func numButtonPressed(_ sender: UIButton){
+    @objc func calcButtonPressed(_ sender: UIButton){
+        
+        isFinishedTypingNumber = true
+        
+        if let calcMethod = sender.currentTitle {
+            if calcMethod == "+/-" {
+                displayValue *= -1
+            } else if calcMethod == "AC" {
+                displayLabel.text = "0"
+            } else if calcMethod == "%" {
+                displayValue *= 0.01
+            }
+        }
+        
+    }
+    @objc func numButtonPressed(_ sender: UIButton) {
+        
         if let numValue = sender.currentTitle {
             
-            displayLabel.text = numValue
-            
+            if isFinishedTypingNumber {
+                
+                displayLabel.text = numValue
+                isFinishedTypingNumber = false
+            } else {
+                
+                if numValue == "." {
+                    let isInt = floor(displayValue) == displayValue
+                    if !isInt {
+                        return
+                    }
+                    
+                }
+                
+                displayLabel.text = displayLabel.text! + numValue
+            }
         }
     }
     
